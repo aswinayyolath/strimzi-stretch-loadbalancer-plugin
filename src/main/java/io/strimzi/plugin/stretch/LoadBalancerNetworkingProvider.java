@@ -192,9 +192,9 @@ public class LoadBalancerNetworkingProvider implements StretchNetworkingProvider
                 LOGGER.debug("{}: LoadBalancer {} not ready yet, will retry in {}ms (attempt {}/30)", 
                     reconciliation, serviceName, delayMs, attempt + 1);
 
-                // Schedule retry after delay
+                // Schedule retry after delay using Vertx from current context
                 io.vertx.core.Promise<Service> promise = io.vertx.core.Promise.promise();
-                supplier.vertx.setTimer(delayMs, timer -> {
+                io.vertx.core.Vertx.currentContext().owner().setTimer(delayMs, timer -> {
                     waitForLoadBalancerReady(reconciliation, supplier, namespace, serviceName, attempt + 1)
                         .onComplete(promise);
                 });
