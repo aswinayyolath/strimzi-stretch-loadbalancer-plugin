@@ -77,7 +77,7 @@ public class LoadBalancerNetworkingProvider implements StretchNetworkingProvider
 
         // Selector matches the specific pod
         Map<String, String> selector = new HashMap<>();
-        selector.put("statefulset.kubernetes.io/pod-name", podName);
+        selector.put("strimzi.io/pod-name", podName);
 
         Service service = new ServiceBuilder()
             .withNewMetadata()
